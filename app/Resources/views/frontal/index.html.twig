@@ -57,7 +57,7 @@ INICIO
             {% for item in lugares %}
                 <div class="col-lg-4 col-sm-6 portfolio-item">
                     <div class="card h-100">
-                        <a href="{{ path('lugar', {id: item.id})}}"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                        <a href="{{ path('lugar', {id: item.id})}}"><img class="card-img-top" src={% if item.foto|length > 0 %}"{{asset(lugarimg~item.foto)}}"{% else %}"http://placehold.it/700x400"{% endif %} alt=""></a>
                         <div class="card-body">
                             <h4 class="card-title">
                             <a href="{{ path('lugar', {id: item.id})}}">{{ item.nombre }}</a>

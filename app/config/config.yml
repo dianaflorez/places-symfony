@@ -6,7 +6,8 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: es
+    lugarimg_directory: '%kernel.project_dir%/web/images/lugarimg'
 
 framework:
     #esi: ~
@@ -35,6 +36,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        lugarimg: 'images/lugarimg/'
 
 # Doctrine Configuration
 doctrine:

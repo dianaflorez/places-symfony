@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 
 class LugarType extends AbstractType
@@ -20,8 +21,9 @@ class LugarType extends AbstractType
         $builder
         ->add('nombre', TextType::class)
         ->add('descripcion', TextareaType::class)
-        ->add('top')
         ->add('opciones', TextareaType::class)
+        ->add('foto', FileType::class, ['attr'=> ['onchange' => 'onChange(event)']])
+        ->add('top')
      //   ->add('fechaCreacion', DateType::class)
         ->add('save', SubmitType::class, ['label' => 'Nuevo lugar'])
       
