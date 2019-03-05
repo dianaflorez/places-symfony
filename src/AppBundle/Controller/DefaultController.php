@@ -18,7 +18,8 @@ class DefaultController extends Controller
         $repository = $this->getDoctrine()->getRepository(Lugar::class);
 
         // finds *all* lugar
-        $lugares = $repository->findAll();
+        // $lugares = $repository->findAll();
+        $lugares = $repository->findByTop(1);
 
         // replace this example code with whatever you need
         return $this->render('frontal/index.html.twig', array('lugares' => $lugares));
@@ -43,5 +44,18 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
         return $this->render('frontal/sedes.html.twig', array("sitio" => $sitio));
+    }
+
+    /**
+     * @Route("/lugar/{id}", name="lugar")
+     */
+    public function lugarAction(Request $request, $id=null)
+    {
+        if($id !== null ){
+            $repository = $this->getDoctrine()->getRepository(Lugar::class);
+            $lugar = $repository->find($id);
+            return $this->render('frontal/lugar.html.twig', array("lugar" => $lugar));
+        }        
+        return $this->redirectToRoute('homepage');
     }
 }
