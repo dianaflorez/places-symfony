@@ -13,6 +13,7 @@ use AppBundle\Entity\Usuario;
 use AppBundle\Form\UsuarioType;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends Controller
 {
@@ -123,8 +124,17 @@ class DefaultController extends Controller
      /**
      * @Route("/login/", name="login")
      */
-    public function loginAction(Request $request, $id=null)
+    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        return $this->render('frontal/login.html.twig');
+         // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('frontal/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
     }
 }

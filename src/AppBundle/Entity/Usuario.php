@@ -61,6 +61,11 @@ class Usuario implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="string", length=154)
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->isActive = true;
