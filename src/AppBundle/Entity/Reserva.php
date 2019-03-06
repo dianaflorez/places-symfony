@@ -31,9 +31,9 @@ class Reserva
     /**
      * @var int
      *
-     * @ORM\Column(name="comensales", type="integer")
+     * @ORM\Column(name="asistentes", type="integer")
      */
-    private $comensales;
+    private $asistentes;
 
     /**
      * @var string
@@ -83,27 +83,27 @@ class Reserva
     }
 
     /**
-     * Set comensales
+     * Set asistentes
      *
-     * @param integer $comensales
+     * @param integer $asistentes
      *
      * @return Reserva
      */
-    public function setComensales($comensales)
+    public function setComensales($asistentes)
     {
-        $this->comensales = $comensales;
+        $this->asistentes = $asistentes;
 
         return $this;
     }
 
     /**
-     * Get comensales
+     * Get asistentes
      *
      * @return int
      */
     public function getComensales()
     {
-        return $this->comensales;
+        return $this->asistentes;
     }
 
     /**
@@ -152,5 +152,29 @@ class Reserva
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set asistentes
+     *
+     * @param integer $asistentes
+     *
+     * @return Reserva
+     */
+    public function setAsistentes($asistentes)
+    {
+        $this->asistentes = $asistentes;
+
+        return $this;
+    }
+
+    /**
+     * Get asistentes
+     *
+     * @return integer
+     */
+    public function getAsistentes()
+    {
+        return $this->asistentes;
     }
 }
