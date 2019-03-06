@@ -84,4 +84,31 @@ class DefaultController extends Controller
         }        
         return $this->redirectToRoute('homepage');
     }
+
+    /**
+     * @Route("/registro", name="registro")
+     */
+    public function registroAction(Request $request)
+    {
+        $usuario = new Usuario();
+        $form = $this->createForm(UsuarioType::class, $usuario);
+        
+        // Recogemos la inf
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            // 3) Encode the password (you could also do this via Doctrine listener)
+            $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
+            $usuario->setPassword($password);
+
+            // 4) save the User!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('lugar', ['id' => $usuario->getId()]);
+        }
+        return $this->render('gestionLugar/nuevoLugar.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }
