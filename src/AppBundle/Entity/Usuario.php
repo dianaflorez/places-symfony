@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Usuario
@@ -66,9 +67,15 @@ class Usuario implements UserInterface, \Serializable
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Reserva", mappedBy="usuario")
+     */
+    private $reservas;
+
     public function __construct()
     {
         $this->isActive = true;
+        $this->reservas = new ArrayColletion();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -159,5 +166,62 @@ class Usuario implements UserInterface, \Serializable
             // $this->salt
         ) = unserialize($serialized, ['allowed_classes' => false]);
     }
-}
 
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Usuario
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Add reserva
+     *
+     * @param \AppBundle\Entity\Reserva $reserva
+     *
+     * @return Usuario
+     */
+    public function addReserva(\AppBundle\Entity\Reserva $reserva)
+    {
+        $this->reservas[] = $reserva;
+
+        return $this;
+    }
+
+    /**
+     * Remove reserva
+     *
+     * @param \AppBundle\Entity\Reserva $reserva
+     */
+    public function removeReserva(\AppBundle\Entity\Reserva $reserva)
+    {
+        $this->reservas->removeElement($reserva);
+    }
+
+    /**
+     * Get reservas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReservas()
+    {
+        return $this->reservas;
+    }
+}
