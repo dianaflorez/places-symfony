@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Lugar
@@ -38,13 +39,6 @@ class Lugar
     /**
      * @var string
      *
-     * @ORM\Column(name="opciones", type="text")
-     */
-    private $opciones;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="foto", type="string", length=255)
      */
     private $foto;
@@ -68,6 +62,19 @@ class Lugar
      * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
      */
     private $categoria;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Opcion")
+     * @ORM\JoinTable(name="opciones_lugares",
+     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="opciones", referencedColumnName="id")}
+     *      )
+     */
+    private $opciones;
+
+    public function __construct() {
+        $this->opciones = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -128,29 +135,6 @@ class Lugar
         return $this->descripcion;
     }
 
-    /**
-     * Set opciones
-     *
-     * @param string $opciones
-     *
-     * @return Lugar
-     */
-    public function setOpciones($opciones)
-    {
-        $this->opciones = $opciones;
-
-        return $this;
-    }
-
-    /**
-     * Get opciones
-     *
-     * @return string
-     */
-    public function getOpciones()
-    {
-        return $this->opciones;
-    }
 
     /**
      * Set foto
@@ -248,5 +232,39 @@ class Lugar
     public function getCategoria()
     {
         return $this->categoria;
+    }
+
+    /**
+     * Add opcione
+     *
+     * @param \AppBundle\Entity\Opcion $opcione
+     *
+     * @return Lugar
+     */
+    public function addOpcione(\AppBundle\Entity\Opcion $opcione)
+    {
+        $this->opciones[] = $opcione;
+
+        return $this;
+    }
+
+    /**
+     * Remove opcione
+     *
+     * @param \AppBundle\Entity\Opcion $opcione
+     */
+    public function removeOpcione(\AppBundle\Entity\Opcion $opcione)
+    {
+        $this->opciones->removeElement($opcione);
+    }
+
+    /**
+     * Get opciones
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOpciones()
+    {
+        return $this->opciones;
     }
 }

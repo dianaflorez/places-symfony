@@ -22,7 +22,8 @@ class LugarType extends AbstractType
         $builder
         ->add('nombre', TextType::class)
         ->add('descripcion', TextareaType::class)
-        ->add('opciones', TextareaType::class)
+        // ->add('opciones', TextareaType::class)
+        ->add('opciones', EntityType::class, ['class' => 'AppBundle:Opcion', 'multiple' => true])
         // ->add('categoria')
         ->add('categoria', EntityType::class, ['class' => 'AppBundle:Categoria'])
         ->add('foto', FileType::class, ['attr'=> ['onchange' => 'onChange(event)']])
