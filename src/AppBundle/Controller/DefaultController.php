@@ -109,6 +109,9 @@ class DefaultController extends Controller
             // 3b) $username = $email
             $usuario->setUsername($usuario->getEmail()); 
 
+            // 3c) $roles 
+            $usuario->setRoles(['ROLE_ADMIN']); 
+
             // 4) save the User!
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($usuario);
