@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Lugar;
 use AppBundle\Entity\Categoria;
 use AppBundle\Entity\Opcion;
+use AppBundle\Entity\Usuario;
+
+use AppBundle\Form\UsuarioType;
+
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends Controller
 {
@@ -29,7 +34,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/nosotros", name="nosotros")
+     * @Route("/nosotros/", name="nosotros")
      */
     public function nosotrosAction(Request $request)
     {
@@ -72,7 +77,7 @@ class DefaultController extends Controller
         return $this->redirectToRoute('homepage');
     }
 
-     /**
+    /**
      * @Route("/opcion/{id}", name="opcion")
      */
     public function opcionAction(Request $request, $id=null)
@@ -86,9 +91,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/registro", name="registro")
+     * @Route("/registro/", name="registro")
      */
-    public function registroAction(Request $request)
+    public function registroAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $usuario = new Usuario();
         $form = $this->createForm(UsuarioType::class, $usuario);
@@ -100,15 +105,26 @@ class DefaultController extends Controller
             $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
             $usuario->setPassword($password);
 
+            // 3b) $username = $email
+            $usuario->setUsername($usuario->getEmail()); 
+
             // 4) save the User!
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($usuario);
             $entityManager->flush();
 
-            return $this->redirectToRoute('lugar', ['id' => $usuario->getId()]);
+            return $this->redirectToRoute('login');
         }
-        return $this->render('gestionLugar/nuevoLugar.html.twig', [
+        return $this->render('frontal/registro.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+     /**
+     * @Route("/login/", name="login")
+     */
+    public function loginAction(Request $request, $id=null)
+    {
+        return $this->render('frontal/login.html.twig');
     }
 }
