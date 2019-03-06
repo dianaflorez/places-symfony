@@ -25,13 +25,13 @@ class DefaultController extends Controller
         // $lugares = $repository->findByTop(1);
         $query = $repository->createQueryBuilder('t')
             ->where('t.top = 1')
-            ->setFirstResult(0)
-            ->setMaxResults(3)
+            ->setFirstResult($numLugares * ($pag-1))
+            ->setMaxResults($numLugares)
             ->getQuery();
         $lugares = $query->getResult();
 
         // replace this example code with whatever you need
-        return $this->render('frontal/index.html.twig', array('lugares' => $lugares));
+        return $this->render('frontal/index.html.twig', ['lugares' => $lugares, 'paginaActual' => $pag]);
         // return $this->render('default/index.html.twig', [
         //     'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
         // ]);
