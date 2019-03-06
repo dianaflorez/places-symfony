@@ -16,19 +16,22 @@ class DefaultController extends Controller
      */
     public function homeAction(Request $request, $pag = 1)
     {
-        $numLugares = 3; // Cant. registros para mostrar en paginación
         // Capturar repositorio para la tabla Lugar
         $repository = $this->getDoctrine()->getRepository(Lugar::class);
 
         // finds *all* lugar
         // $lugares = $repository->findAll();
         // $lugares = $repository->findByTop(1);
+        /*
+        // $numLugares = 3; // Cant. registros para mostrar en paginación        
         $query = $repository->createQueryBuilder('t')
             ->where('t.top = 1')
             ->setFirstResult($numLugares * ($pag-1))
             ->setMaxResults($numLugares)
             ->getQuery();
         $lugares = $query->getResult();
+        */
+        $lugares = $repository->paginaLugares($pag);
 
         // replace this example code with whatever you need
         return $this->render('frontal/index.html.twig', ['lugares' => $lugares, 'paginaActual' => $pag]);

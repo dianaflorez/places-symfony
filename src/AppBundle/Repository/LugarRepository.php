@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class LugarRepository extends \Doctrine\ORM\EntityRepository
 {
+    // Función que devuelve los lugares para una pagina con un nm de elementos
+    public function paginaLugares($pag = 1, $numLugares = 3){
+        $query = $this->createQueryBuilder('t')
+            ->where('t.top = 1')
+            ->setFirstResult($numLugares * ($pag-1))
+            ->setMaxResults($numLugares)
+            ->getQuery();
+        return $query->getResult();
+    }
 }
