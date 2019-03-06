@@ -4,14 +4,14 @@
 
 {#  TITULO #}
 {% block title %}
-Nuevo Lugar
+Nueva Categoría
 {% endblock %}
 {#  CONTENIDO #}
 {% block contenidoDF %}
 <!-- Page Content -->
 <div class="container">
   <!-- Page Heading -->
-  <h1 class="mt-4 mb-3">Nuevo lugar</h1>
+  <h1 class="mt-4 mb-3">Nueva Categoría</h1>
 
   <div class="row">
     <div class="col-md-8">
@@ -28,30 +28,11 @@ Nuevo Lugar
           {{ form_widget(form.descripcion) }}
         </div>
       
-        <div class="control-group form-group">
-          {{ form_label(form.opciones) }}
-          {{ form_errors(form.opciones) }}
-          {{ form_widget(form.opciones) }}
-        </div>
-
-        <div class="control-group form-group">
-          {{ form_label(form.categoria) }}
-          {{ form_errors(form.categoria) }}
-          {{ form_widget(form.categoria) }}
-        </div>
-
          <div class="control-group form-group">
           {{ form_label(form.foto) }}
           {{ form_errors(form.foto) }}
           {{ form_widget(form.foto) }}
         </div>
-
-        <div class="control-group form-group">
-          {{ form_label(form.top) }}
-          {{ form_errors(form.top) }}
-          {{ form_widget(form.top) }}
-        </div>
-      
       
         <div>
           {{ form_widget(form.save) }}

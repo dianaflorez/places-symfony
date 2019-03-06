@@ -63,6 +63,12 @@ class Lugar
      */
     private $top;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="lugares")
+     * @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
+     */
+    private $categoria;
+
 
     /**
      * Get id
@@ -217,5 +223,30 @@ class Lugar
     {
         return $this->top;
     }
-}
 
+   
+
+    /**
+     * Set categoria
+     *
+     * @param \AppBundle\Entity\Categoria $categoria
+     *
+     * @return Lugar
+     */
+    public function setCategoria(\AppBundle\Entity\Categoria $categoria = null)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * Get categoria
+     *
+     * @return \AppBundle\Entity\Categoria
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+}

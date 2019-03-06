@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Lugar;
+use AppBundle\Entity\Categoria;
 
 class DefaultController extends Controller
 {
@@ -55,6 +56,19 @@ class DefaultController extends Controller
             $repository = $this->getDoctrine()->getRepository(Lugar::class);
             $lugar = $repository->find($id);
             return $this->render('frontal/lugar.html.twig', array("lugar" => $lugar));
+        }        
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @Route("/categoria/{id}", name="categoria")
+     */
+    public function categoriaAction(Request $request, $id=null)
+    {
+        if($id !== null ){
+            $repository = $this->getDoctrine()->getRepository(Categoria::class);
+            $categoria = $repository->find($id);
+            return $this->render('frontal/categoria.html.twig', array("categoria" => $categoria));
         }        
         return $this->redirectToRoute('homepage');
     }
