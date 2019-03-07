@@ -6,14 +6,29 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use AppBundle\Entity\Categoria;
 
 /**
  * @Route("/api")
  */
 class ApiController extends Controller
-    {
+{
+    function catToArray($categoria){
+        $categoriaArray=array();
+        $categoriaArray['id']  = $categoria->getId();
+        $categoriaArray['nombre'] = $categoria->getNombre();
+        $categoriaArray['descripcion'] = $categoria->getDescripcion();
+        return $categoriaArray;
+    }
+    function catsToArray($categorias){
+        $categoriasArray = array();
+        foreach($categorias as $categoria){
+            $categoriasArray[] = $this->catToArray($categoria);
+        }
+        return $categoriasArray;
+    }
     /**
      * @Route("/listarCategorias", methods={"GET"})
      */
@@ -25,21 +40,36 @@ class ApiController extends Controller
         $categoriasArray = array();
         foreach($categorias as $categoria){
             $categoriasArray=array();
-            $categoriasArray['id']  = $categoria->getId;
-            $categoriasArray['nombre'] = $categoria->getNombre;
-            $categoriasArray['descripcion'] = $categoria->getDescripcion;
+            $categoriasArray['id']  = $categoria->getId();
+            $categoriasArray['nombre'] = $categoria->getNombre();
+            $categoriasArray['descripcion'] = $categoria->getDescripcion();
+            $categoriasArray[] = $categoriasArray;
         }
-     
-        return new Response("<html><head></head><body>Listar categorias</body></html>");
+        $response = new JsonResponse($categoriasArray);
+        // return new Response("<html><head></head><body>Listar categorias</body></html>");
+        return $response;
     }
 
     /**
-     * @Route("/insertarCategoria/{categoria}", methods={"POST"})
+     * @Route("/insertarCategoria/{nombre}{descripcion}", methods={"POST"})
      */
-    public function insertarCategoriaAction($categoria)
+    public function insertarCategoriaAction($nombre = "", $descripcion = "")
     {
         // ... edit a post
-        return new Response("<html><head></head><body>Insertar categorias: ".$categoria."</body></html>");        return new Response();
+        if(strlen($nombre) > 0){
+            $categoria = new Categoria();
+            $categoria->setNombre($nombre);
+            $categoria->setDescripcion($descripcion);
+            $categoria->setFoto($foto);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($categoria);
+            $em->flush();
+            $response = new JsonResponse($this->catToArray($categoria));
+            return $response;
+            // return new Response("<html><head></head><body>Insertar categoria: ".$nombre."</body></html>");        
+        }
+        throw new BadRequestHttpException('Falta nombre', null, 400);
+        // return new Response("<html><head></head><body>Insertar categorias: ".$categoria."</body></html>");        return new Response();
 
     }
 }
