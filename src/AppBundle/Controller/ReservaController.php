@@ -14,11 +14,17 @@ use AppBundle\Form\ReservaType;
 class ReservaController extends Controller
 {
     /**
-     * @Route("/nueva", name="nuevaReserva")
+     * @Route("/nueva/{id}", name="nuevaReserva")
      */
-    public function nuevaAction(Request $request)
+    public function nuevaAction(Request $request, $id = null)
     {
-        $reserva = new Reserva();
+        if($id){
+            $repository = $this->getDoctrine()->getRepository(Reserva::class);
+            $reserva = $repository->find($id);
+         
+        } else {
+            $reserva = new Reserva();
+        }
         $form = $this->createForm(ReservaType::class, $reserva);
         
         // Recogemos la inf
@@ -52,6 +58,25 @@ class ReservaController extends Controller
         $reservas = $repository->findByUsuario($this->getUser());
         return $this->render('reserva/reservas.html.twig', ["reservas" => $reservas]);
     
+    }
+
+     /**
+     * @Route("/eliminar/{id}", name="eliminarReserva")
+     */
+    public function eliminarAction(Request $request, $id = null)
+    {
+        if($id){
+            // Busqueda
+            $repository = $this->getDoctrine()->getRepository(Reserva::class);
+            $reserva = $repository->find($id);
+         
+            // Eliminar reserva
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($reserva);
+            $em->flush();
+
+        }
+        return $this->redirectToRoute('reservas');
     }
 
 
