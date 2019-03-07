@@ -21,7 +21,7 @@ class ReservaType extends AbstractType
     {
         $builder
         ->add('fecha', DateTimeType::class)
-        ->add('asistentes', IntegerType::class)
+        ->add('asistentes', IntegerType::class, ['label'=> "Número de asistentes"])
         ->add('observaciones', TextareaType::class)
         ->add('save', SubmitType::class, ['label' => 'Nueva reserva'])
       

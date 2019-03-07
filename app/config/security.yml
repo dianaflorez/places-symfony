@@ -33,6 +33,7 @@ security:
         - { path: ^/gestionLugar, roles: ROLE_ADMIN }
         - { path: ^/gestionCategoria, roles: ROLE_ADMIN }
         - { path: ^/gestionCategoria, roles: ROLE_USER }
+        - { path: ^/reservas, roles: ROLE_ADMIN }
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
