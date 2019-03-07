@@ -37,21 +37,13 @@ class ApiController extends Controller
         // ... return a JSON response with the post
         $repository = $this->getDoctrine()->getRepository(Categoria::class);
         $categorias = $repository->findAll();
-        $categoriasArray = array();
-        foreach($categorias as $categoria){
-            $categoriasArray=array();
-            $categoriasArray['id']  = $categoria->getId();
-            $categoriasArray['nombre'] = $categoria->getNombre();
-            $categoriasArray['descripcion'] = $categoria->getDescripcion();
-            $categoriasArray[] = $categoriasArray;
-        }
-        $response = new JsonResponse($categoriasArray);
+        $response = new JsonResponse($this->catsToArray($categorias));
         // return new Response("<html><head></head><body>Listar categorias</body></html>");
         return $response;
     }
 
     /**
-     * @Route("/insertarCategoria/{nombre}{descripcion}", methods={"POST"})
+     * @Route("/insertarCategoria/{nombre}/{descripcion}", methods={"POST"})
      */
     public function insertarCategoriaAction($nombre = "", $descripcion = "")
     {
@@ -60,7 +52,7 @@ class ApiController extends Controller
             $categoria = new Categoria();
             $categoria->setNombre($nombre);
             $categoria->setDescripcion($descripcion);
-            $categoria->setFoto($foto);
+            $categoria->setFoto("");
             $em = $this->getDoctrine()->getManager();
             $em->persist($categoria);
             $em->flush();
